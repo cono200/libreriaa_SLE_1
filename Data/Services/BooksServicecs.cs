@@ -22,7 +22,7 @@ namespace libreriaa_SLE.Data.Services
         //METODO QUE NOS PERMITE AGREGAR UN NUEVO LIBRO EN LA BD
 
 
-        public void AddBook(BookVM book)
+        public void AddBookWithAuthors(BookVM book)
         {
             var _book = new Books()
             {
@@ -32,13 +32,25 @@ namespace libreriaa_SLE.Data.Services
                 DateRead = book.DateRead,
                 Rate = book.Rate,
                 Genero = book.Genero,
-                Autor = book.Autor,
                 CoverUrl = book.CoverUrl,
-                DateAdded = DateTime.Now
+                DateAdded = DateTime.Now,
+                PublisherId = book.PublisherID
             };
 
             _context.Books.Add(_book);
             _context.SaveChanges();
+
+
+            foreach (var id in book.AutorIDs)
+            {
+                var _book_author = new Book_Author()
+                {
+                    BookId = _book.id,
+                    AuthorId = id
+                };
+                _context.Book_Authors.Add(_book_author);
+                _context.SaveChanges(); 
+            }
         }
         //METODO QUE NOS PERMITE OBTENER UNA LISTA DE TODOS LOS  LIBRO EN LA BD
 
@@ -60,7 +72,6 @@ namespace libreriaa_SLE.Data.Services
                 _book.DateRead = book.DateRead;
                 _book.Rate = book.Rate;
                 _book.Genero = book.Genero;
-                _book.Autor = book.Autor;
                 _book.CoverUrl = book.CoverUrl;
 
 
