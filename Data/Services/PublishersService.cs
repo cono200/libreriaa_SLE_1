@@ -1,6 +1,7 @@
 ﻿using libreriaa_SLE.Data.Models;
 using libreriaa_SLE.Data.ViewModels;
 using System;
+using System.Linq;
 
 namespace libreriaa_SLE.Data.Services
 {
@@ -26,6 +27,21 @@ namespace libreriaa_SLE.Data.Services
 
             _context.Publisher.Add(_publisher);
             _context.SaveChanges();
+        }
+
+        public PublisherWithBooksAndAuthorsVM GetPublisherData(int publisherId)
+        {
+            var _publisherData = _context.Publisher.Where(n => n.Id == publisherId)
+                .Select(n => new PublisherWithBooksAndAuthorsVM()
+                {
+                    Name = n.Name,
+                    BookAuthors = n.Books.Select(n => new BookAuthorVM()
+                    {
+                        BookName = n.Titulo,
+                        BookAuthors = n.Book_Authors.Select(n => n.Author.FullName).ToList()
+                    }).ToList()
+                }).FirstOrDefault();
+            return _publisherData;
         }
 
     }

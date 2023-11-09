@@ -23,5 +23,12 @@ namespace libreriaa_SLE.Controllers
             _publishersServices.AddPublisher(publisher);
             return Ok();
         }
+
+        [HttpGet("get-publisher-books-with-authors/{id}")]
+        public IActionResult GetPublisherData(int id)
+        {
+            var _response = _publishersServices.GetPublisherData(id);
+            return Ok(_response);
+        }
     }
 }
