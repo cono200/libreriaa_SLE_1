@@ -40,6 +40,8 @@ namespace libreriaa_SLE
 
             //CONFIGURAR EL SERVICIO PARA QUE PUEDA SER USADO
             services.AddTransient<BooksServicecs>();
+            services.AddTransient<AuthorService>();
+            services.AddTransient<PublishersService>();
 
             services.AddSwaggerGen(c =>
             {
@@ -67,7 +69,7 @@ namespace libreriaa_SLE
             {
                 endpoints.MapControllers();
             });
-            AppDbinitializer.Seed(app);
+            //AppDbinitializer.Seed(app);
         }
     }
 }
